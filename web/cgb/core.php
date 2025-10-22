@@ -26,22 +26,30 @@ function serveFileOrExecScript($filePath, $type, $sessionId = null) {
 		$realBaseDir = realpath($dir);
 		$realFilePath = realpath($dir.$filePath);
 		
-		// if a .cgb file was requested but doesn't exist, try .php instead
-		if ($realFilePath === false) $realFilePath = realpath(str_replace(".cgb", ".php", $dir.$filePath));
 		
-		if ($realFilePath === false || strpos($realFilePath, $realBaseDir) !== 0) {
-			// file doesn't exist or is outiside of the base directory (directory traversal)
-			if ($type != "download" || !str_starts_with($filePath, "/01/AGB-AMKJ/")) { // mobile GP
-				http_response_code(404);
-			}
+		if (preg_match("~/A4/CGB-BMV[JEDFIS]/[0-9][0-9][0-9][0-9]G[0-9][0-9][0-9].cgb~", $filePath)) {
+			// if we're downloading a net-de-get minigame
+			include(CORE_PATH."/net_de_get.php");
+			print download_game($filePath[11], $filePath[-7].$filePath[-6].$filePath[-5]);
+			
 		} else {
-			// file exists
-			if (pathinfo($realFilePath)["extension"] === "php") {
-				// If a PHP script, execute
-				include($realFilePath);
+			// if a .cgb file was requested but doesn't exist, try .php instead
+			if ($realFilePath === false) $realFilePath = realpath(str_replace(".cgb", ".php", $dir.$filePath));
+			
+			if ($realFilePath === false || strpos($realFilePath, $realBaseDir) !== 0) {
+				// file doesn't exist or is outiside of the base directory (directory traversal)
+				if ($type != "download" || !str_starts_with($filePath, "/01/AGB-AMKJ/")) { // mobile GP
+					http_response_code(404);
+				}
 			} else {
-				// If not a PHP script, serve the file
-				readfile($realFilePath); // This puts the file into the output buffer.
+				// file exists
+				if (pathinfo($realFilePath)["extension"] === "php") {
+					// If a PHP script, execute
+					include($realFilePath);
+				} else {
+					// If not a PHP script, serve the file
+					readfile($realFilePath); // This puts the file into the output buffer.
+				}
 			}
 		}
 	} else {

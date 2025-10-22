@@ -465,3 +465,18 @@ CREATE TABLE `amoj_news` (
  `text` text(65535) NOT NULL,
  PRIMARY KEY (`id`)
 );
+
+# Net de Get (BMVJ)
+CREATE TABLE IF NOT EXISTS `bmvj_games` (
+ `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+ `genre` tinyint(1) unsigned NOT NULL DEFAULT 0,
+ `level_react` tinyint(3) unsigned NOT NULL DEFAULT 0,
+ `level_smart` tinyint(3) unsigned NOT NULL DEFAULT 0,
+ `level_sense` tinyint(3) unsigned NOT NULL DEFAULT 0,
+ `level_hidden` tinyint(3) unsigned NOT NULL DEFAULT 0,
+ `title` varbinary(21) NOT NULL,
+ `description` varbinary(32) NOT NULL,
+ `price` tinyint(4) NOT NULL DEFAULT 0,
+ `game_binary` blob NOT NULL,
+ PRIMARY KEY (`id`)
+)
