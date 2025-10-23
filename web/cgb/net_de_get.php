@@ -91,7 +91,7 @@ function download_game($region, $game_id) {
 	// ???
 	$out .= hex2bin('0000');
 	
-	$game_binary = $game_data['game_binary'];
+	$game_binary = substr($game_data['game_binary'], 0, 10).sprintf('%03d',$game_id).substr($game_data['game_binary'], 13);
 	
 	while (strlen($game_binary) > 0) {
 		// game binary block
@@ -114,4 +114,5 @@ function download_game($region, $game_id) {
 	}
 	
 	print $out;
+	//print $game_data['game_binary'];
 }
