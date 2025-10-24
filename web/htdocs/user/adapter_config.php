@@ -129,7 +129,7 @@
 		$lib_data .= pack('C', $result["adapter_model"] + 8);
 		
 		// dns types
-		$lib_data .= hex2bin("00"); // DNS1
+		$lib_data .= hex2bin("01"); // DNS1
 		$lib_data .= hex2bin("00"); // DNS2
 		
 		// P2P port
@@ -149,19 +149,26 @@
 		$lib_data = skip_to($lib_data, 0x1A - 5);
 		
 		// dns1 port
-		$lib_data .= pack('v', 0);
+		$lib_data .= pack('v', 25);
+		
 		// dns2 port
 		$lib_data .= pack('v', 0);
+		
 		// relay port
 		$lib_data .= pack('v', 31227);
+		
 		// dns1 addr
-		$lib_data = skip_to($lib_data, 0x30 - 5);
+		$lib_data .= pack('C', $remoteIP[0]).pack('C', $remoteIP[1]).pack('C', $remoteIP[2]).pack('C', $remoteIP[3]);
+		
 		// dns2 addr
-		$lib_data = skip_to($lib_data, 0x40 - 5);
+		$lib_data = skip_to($lib_data, 0x30 - 5);
+		
 		// relay addr
-		$lib_data = pack('C', $remoteIP[0]).pack('C', $remoteIP[1]).pack('C', $remoteIP[2]).pack('C', $remoteIP[3]);
-		$lib_data = skip_to($lib_data, 0x50 - 5);
+		$lib_data = skip_to($lib_data, 0x40 - 5);
+		$lib_data .= pack('C', $remoteIP[0]).pack('C', $remoteIP[1]).pack('C', $remoteIP[2]).pack('C', $remoteIP[3]);
+		
 		// relay token
+		$lib_data = skip_to($lib_data, 0x50 - 5);
 		if ($result["relay_token"]) {
 			$lib_data .= $result["relay_token"];
 		}
