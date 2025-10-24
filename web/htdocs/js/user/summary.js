@@ -2,6 +2,7 @@
 
 window.addEventListener("DOMContentLoaded", event => {
 	initRevealPasswordButton();
+	initAdapterModelImage();
 });
 
 function initRevealPasswordButton() {
@@ -9,5 +10,11 @@ function initRevealPasswordButton() {
 		const passwordInput = document.getElementById("dionPassword");
 		event.target.remove();
 		passwordInput.value = passwordInput.dataset["password"];
+	});
+}
+
+function initAdapterModelImage() {
+	document.getElementById('adapterModelSelect').addEventListener('change', event => {
+		document.getElementById('adapterModelImage').src = `/png/adapter/${document.getElementById('adapterModelSelect').value}.png`
 	});
 }

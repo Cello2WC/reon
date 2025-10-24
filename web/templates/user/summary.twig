@@ -84,6 +84,47 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="col-lg-6">
+			<div class="card">
+				<div class="card-header">
+					Your Mobile Adapter
+				</div>
+				<div class="card-body">
+					<form method="post" accept-charset="utf-8" class="card-body">
+						<div class="mb-3">
+							<center>
+								<div class="image">
+									<!-- TODO: REDRAW THESE!! theyre currently stolen from pkmn crystal....... -->
+									<img src="/png/adapter/{{ adapter_model|e }}.png" id="adapterModelImage">
+								</div>
+							</center>
+							<div>
+								<label for="adapterModelSelect" class="form-label">Adapter Model</label>
+								<select id="adapterModelSelect" name="adapterModel" class="form-control">
+								<option value="0" {{ adapter_model|e == 0 ? 'selected="selected"' : ''}}>Blue (PDC)</option>
+								<option value="1" {{ adapter_model|e == 1 ? 'selected="selected"' : ''}}>Yellow (cdmaOne)</option>
+								<option value="2" {{ adapter_model|e == 2 ? 'selected="selected"' : ''}}>Green (PHS-NTT, unreleased)</option>
+								<option value="3" {{ adapter_model|e == 3 ? 'selected="selected"' : ''}}>Red (DDI)</option>
+								<option value="4" {{ adapter_model|e == 4 ? 'selected="selected"' : ''}}>Purple (unreleased)</option>
+								<option value="5" {{ adapter_model|e == 5 ? 'selected="selected"' : ''}}>Black (unreleased)</option>
+								<option value="6" {{ adapter_model|e == 6 ? 'selected="selected"' : ''}}>Pink (unreleased)</option>
+								<option value="7" {{ adapter_model|e == 7 ? 'selected="selected"' : ''}}>Grey (unreleased)</option>
+								</select>
+							</div>
+						</div>
+						<div class="mb-3">
+							<label for="phone_number" class="form-label">Phone Number</label>
+							<input id="phone_number" type="text" readonly class="form-control" value="{{ phone_number|e }}">
+						</div>
+						<hr>
+						<button type="submit" class="btn btn-primary">Save</button>
+						<a href="adapter_config.php" class="btn btn-primary" download="config.bin">Download Config Data</a>
+					</form>
+				</div>
+			</div>
+		</div>
+		
 	</div>
 {% endblock %}
 

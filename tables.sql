@@ -10,6 +10,8 @@ CREATE TABLE `sys_users` (
  `dion_email_local` varchar(8) NOT NULL,
  `log_in_password` varchar(8) NOT NULL,
  `money_spent` int(11) NOT NULL,
+ `adapter_model` int(1) NOT NULL DEFAULT 0,
+ `relay_token` varbinary(16),
  PRIMARY KEY (`id`)
 );
 CREATE TABLE `sys_email_change` (

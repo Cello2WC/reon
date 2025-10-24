@@ -273,7 +273,7 @@
 			$dion_ppp_id = self::$instance->generatePPPId();
 			$log_in_password = self::$instance->generateLogInPassword();
 			$db = DBUtil::getInstance()->getDB();
-			$stmt = $db->prepare("insert into sys_users (email, password, dion_ppp_id, dion_email_local, log_in_password, money_spent) values (?,?,?,?,?,0)");
+			$stmt = $db->prepare("insert into sys_users (email, password, dion_ppp_id, dion_email_local, log_in_password, money_spent, adapter_model) values (?,?,?,?,?,0,?,0)");
 			$stmt->bind_param("sssss", $email, $password_hash, $dion_ppp_id, $reonEmail, $log_in_password);
 			$stmt->execute();
 			
@@ -313,6 +313,21 @@
 			} while (!$ppp_id_free);
 			
 			return $ppp_id;
+		}
+		
+		private function validateAdapterModel($model) {
+			return intval($model) >= 0 && intval($model) < 8;
+		}
+		
+		public function setAdapterModel($newModel) {
+			if (!self::$instance->validateAdapterModel($newModel)) return 1;
+			
+			$db = DBUtil::getInstance()->getDB();
+			$stmt = $db->prepare("update sys_users set adapter_model = ? where id = ?");
+			$stmt->bind_param("ii", $newModel, $_SESSION["user_id"]);
+			$stmt->execute();
+			
+			return 0;
 		}
 	}
 ?>
